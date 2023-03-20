@@ -21,6 +21,18 @@ buildscript {
 
 allprojects {
     repositories {
+        // Início ajuste gradle
+        exclusiveContent {
+           filter {
+               includeGroup "com.facebook.react"
+           }
+           forRepository {
+               maven {
+                   url "$rootDir/../node_modules/react-native/android"
+               }
+           }
+       }
+       // Final ajuste gradle
         mavenCentral()
         mavenLocal()
         maven {
