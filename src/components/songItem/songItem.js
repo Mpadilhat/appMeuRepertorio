@@ -3,7 +3,7 @@ import * as s from './styledSongItem';
 import {icons} from '../../assets';
 import {useSearch} from '../../context';
 import {storage} from '../../utils';
-import {Modal, Toast} from '..';
+import {Modal, Toast} from '../../components';
 
 const SongItem = ({position, isPair, data, navigation, refresh}) => {
   const {registeredSongs, loadSongs} = useSearch();
