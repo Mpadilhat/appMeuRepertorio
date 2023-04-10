@@ -7,22 +7,22 @@ export const Container = styled.View`
   width: 100%;
   height: 80px;
 
-  background: ${({par}) => (par ? colors.lightGray : colors.background)};
+  background: ${({isPair}) => (isPair ? colors.lightGray : colors.background)};
 `;
 
-export const Nome = styled.View`
+export const Name = styled.View`
   display: flex;
   justify-content: center;
   width: 60%;
   padding: 10px;
 `;
 
-export const Titulo = styled.Text`
+export const Title = styled.Text`
   font-size: 14px;
   color: ${colors.dark};
 `;
 
-export const Cifra = styled.View`
+export const Cipher = styled.View`
   width: 15%;
   margin-left: -1px;
 `;
@@ -62,7 +62,7 @@ export const ContentText = styled.Text`
   font-size: 14px;
 `;
 
-export const Acoes = styled.View`
+export const Actions = styled.View`
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -72,7 +72,7 @@ export const Acoes = styled.View`
 
 export const Icon = styled.Image``;
 
-export const Botao = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity`
   display: flex;
   justify-content: center;
   align-items: center;

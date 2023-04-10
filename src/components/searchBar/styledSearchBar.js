@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import {colors} from '../../assets';
 
-export const ContainerPesquisa = styled.View`
+export const SearchContainer = styled.View`
   background: ${colors.lightSecondary};
   display: flex;
   justify-content: center;
@@ -21,7 +21,7 @@ export const Wrapper = styled.View`
   border: 1px solid ${colors.secondary};
 `;
 
-export const InputPesquisa = styled.TextInput.attrs({
+export const SearchInput = styled.TextInput.attrs({
   placeholderTextColor: colors.details,
   fontFamily: 'Nunito-Light',
 })`

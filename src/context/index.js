@@ -4,26 +4,29 @@ import {storage} from '../utils';
 const SearchContext = createContext();
 
 export const SearchProvider = ({children}) => {
-  const [musicasCadastradas, setMusicasCadastradas] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [registeredSongs, setRegisteredSongs] = useState([]);
+  const [isLoadingSongs, setIsLoadingSongs] = useState(false);
 
-  function buscarMusicas(init) {
-    storage.load({key: 'musicas'}).then(resp => {
-      setMusicasCadastradas(resp);
-      if (init) setLoading(false);
-    });
+  function loadSongs() {
+    setIsLoadingSongs(true);
+
+    storage
+      .load({key: 'songs'})
+      .then(resp => setRegisteredSongs(resp))
+      .catch(() => setRegisteredSongs([]))
+      .finally(() => setIsLoadingSongs(false));
   }
 
   useEffect(() => {
-    buscarMusicas(true);
+    loadSongs();
   }, []);
 
   return (
     <SearchContext.Provider
       value={{
-        musicasCadastradas,
-        loading,
-        buscarMusicas,
+        registeredSongs,
+        isLoadingSongs,
+        loadSongs,
       }}>
       {children}
     </SearchContext.Provider>

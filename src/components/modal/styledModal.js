@@ -32,12 +32,12 @@ export const ContainerButtons = styled.View`
   margin-top: 30px;
 `;
 
-export const Botao = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   height: 40px;
   width: 100px;
-  background: ${({red}) => (red ? colors.error : colors.success)};
+  background: ${({isRed}) => (isRed ? colors.error : colors.success)};
   border-radius: 5px;
 `;
 

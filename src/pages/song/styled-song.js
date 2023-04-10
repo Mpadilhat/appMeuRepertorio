@@ -44,7 +44,7 @@ export const WrapperButton = styled.ScrollView`
   margin-top: 30px;
 `;
 
-export const Botão = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity`
   display: flex;
   align-items: center;
   justify-content: center;

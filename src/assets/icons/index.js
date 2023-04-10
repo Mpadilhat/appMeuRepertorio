@@ -1,19 +1,19 @@
-import editar from './editar.png';
-import excluir from './excluir.png';
-import lupa from './lupa.png';
-import pesquisando from './pesquisando.png';
+import bloom from './bloom.png';
+import dump from './dump.png';
+import edit from './edit.png';
+import noSongs from './noSongs.png';
 import random from './random.png';
-import semMusicas from './sem-musicas.png';
-import sucesso from './sucesso.png';
+import searching from './searching.png';
+import success from './success.png';
 
 const icons = {
-  editar,
-  excluir,
-  lupa,
-  pesquisando,
+  bloom,
+  dump,
+  edit,
+  noSongs,
   random,
-  semMusicas,
-  sucesso,
+  searching,
+  success,
 };
 
 export default icons;

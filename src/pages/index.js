@@ -1,4 +1,2 @@
-import Home from './home/home';
-import Music from './music/music';
-
-export {Home, Music};
+export {default as Home} from './home/home';
+export {default as Song} from './music/music';

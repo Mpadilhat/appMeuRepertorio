@@ -1,7 +1,5 @@
-import BarraPesquisa from './barra-pesquisa/barra-pesquisa';
-import Modal from './modal/modal';
-import Musica from './musica/musica';
-import RodapeBotoes from './rodape-botoes/rodape-botoes';
-import {CustomToast as Toast} from './toast/toast';
-
-export {BarraPesquisa, Modal, Musica, RodapeBotoes, Toast};
+export {default as FooterButtons} from './footerButtons/footerButtons';
+export {default as Modal} from './modal/modal';
+export {default as SearchBar} from './searchBar/searchBar';
+export {default as SongItem} from './songItem/songItem';
+export {default as Toast} from './toast/toast';

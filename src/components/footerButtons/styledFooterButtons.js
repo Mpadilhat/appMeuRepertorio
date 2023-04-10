@@ -13,14 +13,14 @@ export const Container = styled.View`
   width: 100%;
 `;
 
-export const BotaoRandom = styled.TouchableOpacity`
+export const RandomButton = styled.TouchableOpacity`
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 12.5px;
 `;
 
-export const IconRandom = styled.Image`
+export const RandomIcon = styled.Image`
   height: 20px;
   width: 25px;
 `;
@@ -32,7 +32,7 @@ export const Wrapper = styled.TouchableOpacity`
   align-items: center;
 `;
 
-export const BotaoAdicionarMusica = styled.View`
+export const AddMusicButton = styled.View`
   height: 25px;
   width: 25px;
   background: ${colors.light};

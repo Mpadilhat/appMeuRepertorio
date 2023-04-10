@@ -1,11 +1,11 @@
 import React from 'react';
-import * as s from './styled-toast';
+import * as s from './styledToast';
 import Toast from 'react-native-root-toast';
 import {icons, colors} from '../../assets';
 
 const MyToast = message => (
   <s.Container>
-    <s.Icon source={icons.sucesso} />
+    <s.Icon source={icons.success} />
     <s.Text style={{fontFamily: 'Nunito-Bold'}}>{message}</s.Text>
   </s.Container>
 );
