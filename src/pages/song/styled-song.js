@@ -30,7 +30,8 @@ export const Input = styled.TextInput`
   color: ${colors.dark};
   height: 40px;
   border-radius: 5px;
-  border: 1px solid ${({foco}) => (foco ? colors.secondary : colors.border)};
+  border: 1px solid
+    ${({isFocused}) => (isFocused ? colors.secondary : colors.border)};
   padding: 5px 15px;
 `;
 

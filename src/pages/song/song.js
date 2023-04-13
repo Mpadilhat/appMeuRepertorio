@@ -5,13 +5,47 @@ import {tones, storage, removeAccents, randomString} from '../../utils';
 import {Picker} from '@react-native-picker/picker';
 import {useSearch} from '../../context';
 import {Toast} from '../../components';
+import {Controller, useForm} from 'react-hook-form';
+
+const labelStyle = {fontFamily: 'Nunito-Regular'};
+
+const Input = ({name, control, focus, setFocus}) => (
+  <Controller
+    name={name}
+    control={control}
+    render={({field: {value, onChange}}) => (
+      <s.Input
+        isFocused={focus === name}
+        onFocus={() => setFocus(name)}
+        onBlur={() => setFocus('')}
+        style={{fontFamily: 'Nunito-Light'}}
+        value={value}
+        onChangeText={text => onChange(text)}
+      />
+    )}
+  />
+);
+
+const ColumnWithLabel = ({label, children}) => (
+  <s.Column>
+    <s.TextLabel style={labelStyle}>{label}</s.TextLabel>
+    {children}
+  </s.Column>
+);
+
+const InputWithLabel = ({label, name, control, focus, setFocus}) => (
+  <ColumnWithLabel label={label}>
+    <Input name={name} control={control} focus={focus} setFocus={setFocus} />
+  </ColumnWithLabel>
+);
 
 const Song = ({navigation, route}) => {
   const {editId} = route.params;
   const {registeredSongs, loadSongs} = useSearch();
-  const [songName, setSongName] = useState();
-  const [whoSings, setWhoSings] = useState();
-  const [tone, setTone] = useState('C');
+  const {control, watch} = useForm();
+  const songName = watch('songName', '');
+  const singer = watch('singer', '');
+  const tone = watch('tone', 'C');
   const [needsCipher, setNeedsCipher] = useState(false);
   const [focus, setFocus] = useState('');
   const [isLoadingSave, setIsLoadingSave] = useState(false);
@@ -140,57 +174,49 @@ const Song = ({navigation, route}) => {
 
   return (
     <s.Content>
-      <s.Column>
-        <s.TextLabel style={{fontFamily: 'Nunito-Regular'}}>
-          Nome da música:
-        </s.TextLabel>
-        <s.Input
-          foco={focus === 'name'}
-          onFocus={() => setFocus('name')}
-          onBlur={() => setFocus('')}
-          style={{fontFamily: 'Nunito-Light'}}
-          value={songName}
-          onChangeText={text => setSongName(text)}
-        />
-      </s.Column>
+      <InputWithLabel
+        label="Nome da música:"
+        name="songName"
+        control={control}
+        focus={focus}
+        setFocus={setFocus}
+      />
 
-      <s.Column>
-        <s.TextLabel style={{fontFamily: 'Nunito-Regular'}}>
-          Quem canta?
-        </s.TextLabel>
-        <s.Input
-          foco={focus === 'singer'}
-          onFocus={() => setFocus('singer')}
-          onBlur={() => setFocus('')}
-          style={{fontFamily: 'Nunito-Light'}}
-          value={whoSings}
-          onChangeText={text => setWhoSings(text)}
-        />
-      </s.Column>
+      <InputWithLabel
+        label="Quem canta?"
+        name="singer"
+        control={control}
+        focus={focus}
+        setFocus={setFocus}
+      />
 
       <s.Row>
         <s.Column width="40%" noSpace>
-          <s.TextLabel style={{fontFamily: 'Nunito-Regular'}}>Tom:</s.TextLabel>
+          <s.TextLabel style={labelStyle}>Tom:</s.TextLabel>
           <s.Select>
-            <Picker
-              style={s.styleSelect}
-              prompt="Selecione o tom"
-              selectedValue={tone}
-              onValueChange={itemValue => setTone(itemValue)}>
-              {tones.map(tone => (
-                <Picker.Item
-                  key={tone.value}
-                  label={tone.label}
-                  value={tone.value}
-                />
-              ))}
-            </Picker>
+            <Controller
+              name="tone"
+              control={control}
+              render={({field: {value, onChange}}) => (
+                <Picker
+                  style={s.styleSelect}
+                  prompt="Selecione o tom"
+                  selectedValue={value}
+                  onValueChange={itemValue => onChange(itemValue)}>
+                  {tones.map(t => (
+                    <Picker.Item
+                      key={t.value}
+                      label={t.label}
+                      value={t.value}
+                    />
+                  ))}
+                </Picker>
+              )}
+            />
           </s.Select>
         </s.Column>
         <s.Column width="50%" noSpace>
-          <s.TextLabel style={{fontFamily: 'Nunito-Regular'}}>
-            Precisa de cifra?
-          </s.TextLabel>
+          <s.TextLabel style={labelStyle}>Precisa de cifra?</s.TextLabel>
           <s.Select>
             <Picker
               style={s.styleSelect}
@@ -218,7 +244,7 @@ const Song = ({navigation, route}) => {
             isLoadingSave ||
             needsCipher === null ||
             !tone ||
-            !whoSings ||
+            !singer ||
             !songName
           }
           onPress={() => saveSong()}>
