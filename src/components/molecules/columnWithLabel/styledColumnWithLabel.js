@@ -4,6 +4,8 @@ import {colors} from '../../../assets';
 export const Column = styled.View`
   width: ${({width}) => width || '100%'};
   margin-bottom: ${({marginBottom}) => marginBottom || 0};
+  display: flex;
+  flex-direction: column;
 `;
 
 export const TextLabel = styled.Text`

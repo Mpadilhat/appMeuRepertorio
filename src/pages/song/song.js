@@ -2,8 +2,14 @@ import React, {useState, useEffect} from 'react';
 import * as s from './styled-song';
 import {storage, removeAccents, randomString} from '../../utils';
 import {useSearch} from '../../context';
-import {Toast, InputWithLabel, SelectWithLabel, Button} from '../../components';
-import {Controller, useForm} from 'react-hook-form';
+import {
+  Toast,
+  InputWithLabel,
+  SelectWithLabel,
+  Button,
+  SwitchWithLabel,
+} from '../../components';
+import {useForm} from 'react-hook-form';
 import {toneOptions} from '../../constants';
 
 const Song = ({navigation, route}) => {
@@ -175,16 +181,12 @@ const Song = ({navigation, route}) => {
           options={toneOptions}
           width="40%"
         />
-        <SelectWithLabel
+        <SwitchWithLabel
           label="Precisa de cifra?"
           name="needsCipher"
           control={control}
-          placeholder="Precisa de cifra?"
-          options={[
-            {value: false, label: 'Não'},
-            {value: true, label: 'Sim'},
-          ]}
           width="50%"
+          showOptions
         />
       </s.Row>
       <s.WrapperButton>
