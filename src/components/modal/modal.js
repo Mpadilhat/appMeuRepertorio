@@ -13,7 +13,7 @@ const CustomModal = ({isOpen, song, onPress, closeModal, modalOk}) => {
           </s.Text>
           <s.Text style={{fontFamily: 'Nunito-Black'}}>
             "{song?.songName || 'Nome da música'} (
-            {song?.whoSings || 'Quem canta'})"
+            {song?.singer || 'Quem canta'})"
             {!modalOk && '?'}
           </s.Text>
 

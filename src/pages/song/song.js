@@ -1,75 +1,48 @@
 import React, {useState, useEffect} from 'react';
 import * as s from './styled-song';
-import {shadow} from '../../assets';
-import {tones, storage, removeAccents, randomString} from '../../utils';
-import {Picker} from '@react-native-picker/picker';
+import {storage, removeAccents, randomString} from '../../utils';
 import {useSearch} from '../../context';
-import {Toast} from '../../components';
+import {Toast, InputWithLabel, SelectWithLabel, Button} from '../../components';
 import {Controller, useForm} from 'react-hook-form';
-
-const labelStyle = {fontFamily: 'Nunito-Regular'};
-
-const Input = ({name, control, focus, setFocus}) => (
-  <Controller
-    name={name}
-    control={control}
-    render={({field: {value, onChange}}) => (
-      <s.Input
-        isFocused={focus === name}
-        onFocus={() => setFocus(name)}
-        onBlur={() => setFocus('')}
-        style={{fontFamily: 'Nunito-Light'}}
-        value={value}
-        onChangeText={text => onChange(text)}
-      />
-    )}
-  />
-);
-
-const ColumnWithLabel = ({label, children}) => (
-  <s.Column>
-    <s.TextLabel style={labelStyle}>{label}</s.TextLabel>
-    {children}
-  </s.Column>
-);
-
-const InputWithLabel = ({label, name, control, focus, setFocus}) => (
-  <ColumnWithLabel label={label}>
-    <Input name={name} control={control} focus={focus} setFocus={setFocus} />
-  </ColumnWithLabel>
-);
+import {toneOptions} from '../../constants';
 
 const Song = ({navigation, route}) => {
   const {editId} = route.params;
   const {registeredSongs, loadSongs} = useSearch();
-  const {control, watch} = useForm();
+  const {control, watch, setValue} = useForm();
   const songName = watch('songName', '');
   const singer = watch('singer', '');
   const tone = watch('tone', 'C');
-  const [needsCipher, setNeedsCipher] = useState(false);
+  const needsCipher = watch('needsCipher', false);
   const [focus, setFocus] = useState('');
   const [isLoadingSave, setIsLoadingSave] = useState(false);
+  const buttonIsDisabled = isLoadingSave || !singer || !songName;
+  const buttonLabel = isLoadingSave
+    ? 'SALVANDO...'
+    : editId
+    ? 'SALVAR ALTERAÇÕES'
+    : 'CADASTRAR';
 
   function verifiyIfSongExists() {
     return new Promise((resolve, reject) => {
-      let songs = registeredSongs;
+      let songs = [...registeredSongs];
       let name = songName?.toLowerCase();
-      let singer = whoSings?.toLowerCase();
-      let exists = false;
+      let whoSings = singer?.toLowerCase();
+      let songExists = false;
 
       for (let x = 0; x < songs.length; x++) {
         if (
           songs[x]?.songName.toLowerCase() === name &&
-          songs[x]?.whoSings.toLowerCase() === singer &&
+          songs[x]?.singer.toLowerCase() === whoSings &&
           editId &&
           songs[x]?.id !== editId
         ) {
-          exists = true;
+          songExists = true;
           break;
         }
       }
 
-      if (exists) {
+      if (songExists) {
         resolve();
       } else {
         reject();
@@ -86,11 +59,13 @@ const Song = ({navigation, route}) => {
         {
           id: randomString(),
           songName,
-          whoSings,
+          singer,
           tone,
           needsCipher,
         },
       ];
+
+      console.log('songs :>> ', songs);
 
       storage.save({
         key: 'songs',
@@ -102,7 +77,7 @@ const Song = ({navigation, route}) => {
       Toast.success('Música adicionada!');
       navigation.navigate('Home');
     } else {
-      songs = registeredSongs;
+      songs = [...registeredSongs];
 
       if (editId) {
         let songIndex;
@@ -117,7 +92,7 @@ const Song = ({navigation, route}) => {
         songs[songIndex] = {
           id: songs[songIndex].id,
           songName,
-          whoSings,
+          singer,
           tone,
           needsCipher,
         };
@@ -125,7 +100,7 @@ const Song = ({navigation, route}) => {
         songs.push({
           id: randomString(),
           songName,
-          whoSings,
+          singer,
           tone,
           needsCipher,
         });
@@ -163,10 +138,10 @@ const Song = ({navigation, route}) => {
     if (editId) {
       registeredSongs.map(song => {
         if (song.id === editId) {
-          setSongName(song.songName);
-          setWhoSings(song.whoSings);
-          setTone(song.tone);
-          setNeedsCipher(song.needsCipher);
+          setValue('songName', song.songName);
+          setValue('singer', song.singer);
+          setValue('tone', song.tone);
+          setValue('needsCipher', song.needsCipher);
         }
       });
     }
@@ -180,78 +155,44 @@ const Song = ({navigation, route}) => {
         control={control}
         focus={focus}
         setFocus={setFocus}
+        marginBottom="20px"
       />
-
       <InputWithLabel
         label="Quem canta?"
         name="singer"
         control={control}
         focus={focus}
         setFocus={setFocus}
+        marginBottom="20px"
       />
 
       <s.Row>
-        <s.Column width="40%" noSpace>
-          <s.TextLabel style={labelStyle}>Tom:</s.TextLabel>
-          <s.Select>
-            <Controller
-              name="tone"
-              control={control}
-              render={({field: {value, onChange}}) => (
-                <Picker
-                  style={s.styleSelect}
-                  prompt="Selecione o tom"
-                  selectedValue={value}
-                  onValueChange={itemValue => onChange(itemValue)}>
-                  {tones.map(t => (
-                    <Picker.Item
-                      key={t.value}
-                      label={t.label}
-                      value={t.value}
-                    />
-                  ))}
-                </Picker>
-              )}
-            />
-          </s.Select>
-        </s.Column>
-        <s.Column width="50%" noSpace>
-          <s.TextLabel style={labelStyle}>Precisa de cifra?</s.TextLabel>
-          <s.Select>
-            <Picker
-              style={s.styleSelect}
-              prompt="Precisa de cifra?"
-              selectedValue={needsCipher}
-              onValueChange={itemValue => setNeedsCipher(itemValue)}>
-              {[
-                {value: false, label: 'Não'},
-                {value: true, label: 'Sim'},
-              ].map((item, index) => (
-                <Picker.Item
-                  key={index}
-                  label={item.label}
-                  value={item.value}
-                />
-              ))}
-            </Picker>
-          </s.Select>
-        </s.Column>
+        <SelectWithLabel
+          label="Tom:"
+          name="tone"
+          control={control}
+          placeholder="Selecione o tom"
+          options={toneOptions}
+          width="40%"
+        />
+        <SelectWithLabel
+          label="Precisa de cifra?"
+          name="needsCipher"
+          control={control}
+          placeholder="Precisa de cifra?"
+          options={[
+            {value: false, label: 'Não'},
+            {value: true, label: 'Sim'},
+          ]}
+          width="50%"
+        />
       </s.Row>
       <s.WrapperButton>
-        <s.Button
-          style={shadow}
-          disabled={
-            isLoadingSave ||
-            needsCipher === null ||
-            !tone ||
-            !singer ||
-            !songName
-          }
-          onPress={() => saveSong()}>
-          <s.TextButton style={{fontFamily: 'Nunito-Black'}}>
-            {editId ? 'Salvar mudanças' : '+ Adicionar música'}
-          </s.TextButton>
-        </s.Button>
+        <Button
+          label={buttonLabel}
+          isDisabled={buttonIsDisabled}
+          onPress={saveSong}
+        />
       </s.WrapperButton>
     </s.Content>
   );

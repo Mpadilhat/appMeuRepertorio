@@ -3,3 +3,6 @@ export {default as Modal} from './modal/modal';
 export {default as SearchBar} from './searchBar/searchBar';
 export {default as SongItem} from './songItem/songItem';
 export {CustomToast as Toast} from './toast/toast';
+
+export * from './atoms';
+export * from './molecules';

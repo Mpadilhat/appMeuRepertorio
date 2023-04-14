@@ -31,7 +31,7 @@ const SongItem = ({position, isPair, data, navigation, refresh}) => {
 
       <s.Name>
         <s.Title numberOfLines={2} style={{fontFamily: 'Nunito-Black'}}>
-          {position + 1}. {data.songName} ({data.whoSings})
+          {position + 1}. {data.songName} ({data.singer})
         </s.Title>
       </s.Name>
 

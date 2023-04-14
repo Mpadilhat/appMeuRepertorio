@@ -1,30 +1,3 @@
-const tones = [
-  {value: 'C', label: 'C'},
-  {value: 'C#', label: 'C#'},
-  {value: 'Cm', label: 'Cm'},
-  {value: 'C#m', label: 'C#m'},
-  {value: 'D', label: 'D'},
-  {value: 'D#', label: 'D#'},
-  {value: 'Dm', label: 'Dm'},
-  {value: 'D#m', label: 'D#m'},
-  {value: 'E', label: 'E'},
-  {value: 'Em', label: 'Em'},
-  {value: 'F', label: 'F'},
-  {value: 'F#', label: 'F#'},
-  {value: 'Fm', label: 'Fm'},
-  {value: 'F#m', label: 'F#m'},
-  {value: 'G', label: 'G'},
-  {value: 'G#', label: 'G#'},
-  {value: 'Gm', label: 'Gm'},
-  {value: 'G#m', label: 'G#m'},
-  {value: 'A', label: 'A'},
-  {value: 'A#', label: 'A#'},
-  {value: 'Am', label: 'Am'},
-  {value: 'A#m', label: 'A#m'},
-  {value: 'B', label: 'B'},
-  {value: 'Bm', label: 'Bm'},
-];
-
 const removeAccents = string => {
   return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
@@ -43,4 +16,4 @@ export const randomString = (length = 20) => {
 };
 
 import storage from './storage';
-export {tones, storage, removeAccents};
+export {storage, removeAccents};
