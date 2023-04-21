@@ -21,9 +21,7 @@ const Home = ({navigation}) => {
       <s.ScrollView style={{marginBottom: songList.length ? 65 : 0}}>
         {isLoadingSongs ? (
           <s.Container>
-            <s.Text style={{fontFamily: 'Nunito-Regular'}}>
-              Carregando músicas...
-            </s.Text>
+            <s.Text>Carregando músicas...</s.Text>
             <s.Icon source={icons.searching} />
           </s.Container>
         ) : songList.length ? (
@@ -32,7 +30,6 @@ const Home = ({navigation}) => {
               key={song.id}
               position={index}
               data={song}
-              isPair={index % 2 === 0}
               navigation={navigation}
               refresh={() => {
                 setValue('search', searchedSongs.length ? search : '');
@@ -43,7 +40,6 @@ const Home = ({navigation}) => {
           <s.Container>
             <s.Text
               style={{
-                fontFamily: 'Nunito-Regular',
                 marginRight: search ? 60 : 25,
                 marginLeft: search ? 60 : 25,
                 marginBottom: 75,

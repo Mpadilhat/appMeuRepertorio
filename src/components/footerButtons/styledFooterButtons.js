@@ -45,6 +45,7 @@ export const AddMusicButton = styled.View`
 
 export const Text = styled.Text`
   font-size: 16px;
+  font-family: 'Nunito-Black';
   color: ${colors.light};
   text-shadow: 1px 2px 2px ${colors.dark};
 `;
@@ -55,6 +56,7 @@ export const TextButton = styled.Text`
   align-items: center;
   text-align: center;
   font-size: 25px;
+  font-family: 'Nunito-Bold';
   color: ${colors.primary};
   font-weight: 600;
   position: absolute;

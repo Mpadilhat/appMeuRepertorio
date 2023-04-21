@@ -3,51 +3,44 @@ import Modal from 'react-native-modal';
 import * as s from './styledModal';
 import {shadow} from '../../assets';
 
-const CustomModal = ({isOpen, song, onPress, closeModal, modalOk}) => {
+const CustomModal = ({isOpen, song, onPress, closeModal, suggestSong}) => {
   return (
     <Modal isVisible={isOpen} backdropOpacity={0.5}>
       <s.Container>
         <s.Content>
-          <s.Text ok={modalOk} style={{fontFamily: 'Nunito-SemiBold'}}>
-            {modalOk ? 'Toca ai a música' : 'Deseja mesmo excluir a música'}
+          <s.Text fontSemiBold marginBottom title>
+            {suggestSong
+              ? 'Toca aí a música'
+              : 'Deseja mesmo excluir a música?'}
           </s.Text>
-          <s.Text style={{fontFamily: 'Nunito-Black'}}>
-            "{song?.songName || 'Nome da música'} (
-            {song?.singer || 'Quem canta'})"
-            {!modalOk && '?'}
+          <s.Text fontBlack big>
+            {song?.songName || 'Nome da música'}
           </s.Text>
+          <s.View singer>
+            <s.Text fontRegular>{song?.singer || 'Quem canta'}</s.Text>
+          </s.View>
 
-          {modalOk && (
+          {suggestSong && (
             <s.View>
-              <s.Text style={{fontFamily: 'Nunito-Regular'}}>
-                Tom:{' '}
-                <s.Text style={{fontFamily: 'Nunito-Bold'}}>
-                  {song?.tone || 'Tom'}
-                </s.Text>
+              <s.Text fontRegular greyBackground marginRight>
+                Tom: <s.Text fontBold>{song?.tone || 'Tom'}</s.Text>
               </s.Text>
-              <s.Text style={{fontFamily: 'Nunito-Regular'}}>
+              <s.Text fontRegular greyBackground>
                 Cifra:{' '}
-                <s.Text style={{fontFamily: 'Nunito-Bold'}}>
+                <s.Text fontBold>
                   {song?.needsCipher === false ? 'Não' : 'Sim' || 'Cifra'}
                 </s.Text>
               </s.Text>
             </s.View>
           )}
 
-          <s.ContainerButtons center={modalOk}>
-            <s.Button
-              isRed={modalOk ? false : true}
-              onPress={closeModal}
-              style={shadow}>
-              <s.TextButton style={{fontFamily: 'Nunito-Black'}}>
-                {modalOk ? 'OK' : 'NÃO'}
-              </s.TextButton>
+          <s.ContainerButtons center={suggestSong}>
+            <s.Button isRed={!suggestSong} onPress={closeModal} style={shadow}>
+              <s.TextButton>{suggestSong ? 'OK' : 'NÃO'}</s.TextButton>
             </s.Button>
-            {!modalOk && (
+            {!suggestSong && (
               <s.Button onPress={onPress} style={shadow}>
-                <s.TextButton style={{fontFamily: 'Nunito-Black'}}>
-                  SIM
-                </s.TextButton>
+                <s.TextButton>SIM</s.TextButton>
               </s.Button>
             )}
           </s.ContainerButtons>

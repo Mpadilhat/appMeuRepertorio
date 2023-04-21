@@ -18,6 +18,7 @@ export const Container = styled.View`
 export const Text = styled.Text`
   color: ${colors.dark};
   font-size: 20px;
+  font-family: 'Nunito-Regular';
   margin-bottom: 50px;
   text-align: center;
 `;

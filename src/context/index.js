@@ -7,14 +7,22 @@ export const SearchProvider = ({children}) => {
   const [registeredSongs, setRegisteredSongs] = useState([]);
   const [isLoadingSongs, setIsLoadingSongs] = useState(false);
 
-  function loadSongs() {
+  async function loadSongs() {
     setIsLoadingSongs(true);
 
-    storage
-      .load({key: 'songs'})
-      .then(resp => setRegisteredSongs(resp))
-      .catch(() => setRegisteredSongs([]))
-      .finally(() => setIsLoadingSongs(false));
+    return new Promise((resolve, reject) => {
+      storage
+        .load({key: 'songs'})
+        .then(resp => {
+          setRegisteredSongs(resp);
+          resolve();
+        })
+        .catch(() => {
+          setRegisteredSongs([]);
+          reject();
+        })
+        .finally(() => setIsLoadingSongs(false));
+    });
   }
 
   useEffect(() => {

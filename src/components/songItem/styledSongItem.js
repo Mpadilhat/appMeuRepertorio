@@ -20,6 +20,7 @@ export const Name = styled.View`
 export const Title = styled.Text`
   font-size: 14px;
   color: ${colors.dark};
+  font-family: 'Nunito-Black';
 `;
 
 export const Cipher = styled.View`
@@ -47,6 +48,25 @@ export const Head = styled.View.attrs({
 export const HeadText = styled.Text`
   color: ${colors.primary};
   font-size: ${({big}) => (big ? '13px' : '10px')};
+  font-family: ${({fontSemiBold, fontBold, fontRegular}) => {
+    let fontFamily = 'Nunito-';
+
+    switch (true) {
+      case fontSemiBold:
+        fontFamily += 'SemiBold';
+        break;
+      case fontBold:
+        fontFamily += 'Bold';
+        break;
+      case fontRegular:
+        fontFamily += 'Regular';
+        break;
+      default:
+        break;
+    }
+
+    return fontFamily;
+  }};
 `;
 
 export const Content = styled.View.attrs({borderBottomWidth: 0})`

@@ -6,7 +6,7 @@ import {icons, colors} from '../../assets';
 const MyToast = message => (
   <s.Container>
     <s.Icon source={icons.success} />
-    <s.Text style={{fontFamily: 'Nunito-Bold'}}>{message}</s.Text>
+    <s.Text>{message}</s.Text>
   </s.Container>
 );
 

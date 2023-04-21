@@ -26,13 +26,15 @@ const FooterButtons = ({navigation, clearSearch}) => {
   return (
     <s.Container style={shadow}>
       <Modal
-        modalOk
+        suggestSong
         isOpen={isOpen.modal}
         song={isOpen.song}
         closeModal={() => setIsOpen({modal: false, song: {}})}
       />
 
-      <s.RandomButton onPress={recommendSong}>
+      <s.RandomButton
+        onPress={recommendSong}
+        disabled={!registeredSongs.length}>
         <s.RandomIcon source={icons.random} />
       </s.RandomButton>
       <s.Wrapper
@@ -40,9 +42,9 @@ const FooterButtons = ({navigation, clearSearch}) => {
           clearSearch();
           navigation.navigate('Cadastrar música', {editId: null});
         }}>
-        <s.Text style={{fontFamily: 'Nunito-Black'}}>Adicionar música</s.Text>
+        <s.Text>Adicionar música</s.Text>
         <s.AddMusicButton style={shadow}>
-          <s.TextButton style={{fontFamily: 'Nunito-Bold'}}>+</s.TextButton>
+          <s.TextButton>+</s.TextButton>
         </s.AddMusicButton>
       </s.Wrapper>
     </s.Container>

@@ -19,6 +19,7 @@ export const Icon = styled.Image`
 
 export const Text = styled.Text`
   font-size: 14px;
+  font-family: 'Nunito-Bold';
   color: ${colors.light};
   font-size: 14px;
 `;

@@ -1,62 +1,73 @@
-import React, {useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import * as s from './styledSongItem';
 import {icons} from '../../assets';
 import {useSearch} from '../../context';
 import {storage} from '../../utils';
 import {Modal, Toast} from '../../components';
 
-const SongItem = ({position, isPair, data, navigation, refresh}) => {
+const SongItem = ({position, data, navigation, refresh}) => {
   const {registeredSongs, loadSongs} = useSearch();
-  const [isOpen, setIsOpen] = useState({modal: false, song: {}});
+  const closeModal = useMemo(() => {
+    return {modal: false, song: {}};
+  }, []);
+  const [isOpen, setIsOpen] = useState(closeModal);
+  const [successfullyDeleted, setSuccessfullyDeleted] = useState(false);
+  const isPair = position % 2 === 0;
 
-  const removeSong = songId => {
+  useEffect(() => {
+    if (successfullyDeleted) {
+      setIsOpen(closeModal);
+    }
+
+    return () => setIsOpen(closeModal);
+  }, [successfullyDeleted, closeModal]);
+
+  function removeSong(songId) {
     const updatedSongs = registeredSongs.filter(song => song.id !== songId);
-    storage.save({key: 'songs', data: updatedSongs, expires: null});
-    loadSongs();
-    setIsOpen(false);
-    Toast.success('Música excluída');
-  };
+
+    storage.save({key: 'songs', data: updatedSongs, expires: null}).then(() => {
+      loadSongs().then(() => {
+        refresh();
+        Toast.success('Música excluída');
+        setSuccessfullyDeleted(true);
+      });
+    });
+  }
 
   return (
     <s.Container isPair={isPair}>
       <Modal
         isOpen={isOpen.modal}
         song={isOpen.song}
-        onPress={() => {
-          removeSong(data.id);
-          refresh();
-        }}
+        onPress={() => removeSong(data.id)}
         closeModal={() => setIsOpen({modal: false, song: {}})}
       />
 
       <s.Name>
-        <s.Title numberOfLines={2} style={{fontFamily: 'Nunito-Black'}}>
+        <s.Title numberOfLines={2}>
           {position + 1}. {data.songName} ({data.singer})
         </s.Title>
       </s.Name>
-
       <s.Column>
         <s.Head>
-          <s.HeadText style={{fontFamily: 'Nunito-SemiBold'}}>TOM</s.HeadText>
+          <s.HeadText fontSemiBold>TOM</s.HeadText>
         </s.Head>
         <s.Content>
-          <s.HeadText big style={{fontFamily: 'Nunito-Bold'}}>
+          <s.HeadText big fontBold>
             {data.tone}
           </s.HeadText>
         </s.Content>
       </s.Column>
-
       <s.Cipher>
         <s.Head>
-          <s.HeadText style={{fontFamily: 'Nunito-SemiBold'}}>CIFRA</s.HeadText>
+          <s.HeadText fontSemiBold>CIFRA</s.HeadText>
         </s.Head>
         <s.Content>
-          <s.HeadText big style={{fontFamily: 'Nunito-Regular'}}>
+          <s.HeadText big fontRegular>
             {data.needsCipher ? 'Sim' : 'Não'}
           </s.HeadText>
         </s.Content>
       </s.Cipher>
-
       <s.Actions>
         <s.Button
           onPress={() =>
