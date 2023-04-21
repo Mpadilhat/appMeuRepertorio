@@ -13,7 +13,7 @@ export const Icon = styled.Image`
   background: white;
   margin-right: 10px;
   border-radius: 10px;
-  border-color: ${colors.success};
+  border-color: ${({borderColor}) => colors[borderColor]};
   border-width: 1px;
 `;
 

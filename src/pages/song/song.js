@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import * as s from './styled-song';
-import {storage, removeAccents, randomString} from '../../utils';
+import {storage} from '../../utils';
 import {useSearch} from '../../context';
 import {
   Toast,
@@ -29,18 +29,31 @@ const Song = ({navigation, route}) => {
     ? 'SALVAR ALTERAÇÕES'
     : 'CADASTRAR';
 
-  function verifiyIfSongExists() {
+  function saveFirstSong() {
+    const songs = [
+      {
+        id: 1,
+        songName: songName.trim(),
+        singer: singer.trim(),
+        tone,
+        needsCipher,
+      },
+    ];
+
+    saveSong(songs);
+  }
+
+  function verifyIfSongExists() {
     return new Promise((resolve, reject) => {
-      let songs = [...registeredSongs];
-      let name = songName?.toLowerCase();
-      let whoSings = singer?.toLowerCase();
+      const songs = [...registeredSongs];
+      const name = songName?.trim()?.toLowerCase();
+      const whoSings = singer?.trim()?.toLowerCase();
       let songExists = false;
 
       for (let x = 0; x < songs.length; x++) {
         if (
           songs[x]?.songName.toLowerCase() === name &&
           songs[x]?.singer.toLowerCase() === whoSings &&
-          editId &&
           songs[x]?.id !== editId
         ) {
           songExists = true;
@@ -56,100 +69,87 @@ const Song = ({navigation, route}) => {
     });
   }
 
-  function saveSong() {
-    let songs = [];
-    setIsLoadingSave(true);
+  function updateSong(songs) {
+    let songIndex;
 
-    if (registeredSongs.length === 0) {
-      songs = [
-        {
-          id: randomString(),
-          songName,
-          singer,
-          tone,
-          needsCipher,
-        },
-      ];
+    for (let pos = 0; pos < registeredSongs.length; pos++) {
+      if (registeredSongs[pos].id === editId) {
+        songIndex = pos;
+        break;
+      }
+    }
 
-      console.log('songs :>> ', songs);
+    songs[songIndex] = {
+      id: songs[songIndex].id,
+      songName: songName.trim(),
+      singer: singer.trim(),
+      tone,
+      needsCipher,
+    };
 
-      storage.save({
+    return songs;
+  }
+
+  function addNewSong(songs) {
+    const lastId = registeredSongs[registeredSongs.length - 1].id;
+
+    songs.push({
+      id: lastId + 1,
+      songName: songName.trim(),
+      singer: singer.trim(),
+      tone,
+      needsCipher,
+    });
+
+    return songs;
+  }
+
+  function saveSong(songs) {
+    storage
+      .save({
         key: 'songs',
         data: songs,
         expires: null,
+      })
+      .then(() => {
+        loadSongs().then(() => {
+          Toast.success(editId ? 'Música editada!' : 'Música adicionada!');
+          navigation.navigate('Home');
+        });
       });
+  }
 
-      loadSongs();
-      Toast.success('Música adicionada!');
-      navigation.navigate('Home');
+  function saveChanges() {
+    const noSongsRegistered = registeredSongs.length === 0;
+    setIsLoadingSave(true);
+
+    if (noSongsRegistered) {
+      saveFirstSong();
     } else {
-      songs = [...registeredSongs];
-
-      if (editId) {
-        let songIndex;
-
-        for (let pos = 0; pos < registeredSongs.length; pos++) {
-          if (registeredSongs[pos].id === editId) {
-            songIndex = pos;
-            break;
-          }
-        }
-
-        songs[songIndex] = {
-          id: songs[songIndex].id,
-          songName,
-          singer,
-          tone,
-          needsCipher,
-        };
-      } else {
-        songs.push({
-          id: randomString(),
-          songName,
-          singer,
-          tone,
-          needsCipher,
-        });
-      }
-
-      function sortAndSave() {
-        songs.sort(function (a, b) {
-          let songA = removeAccents(a.songName).toLowerCase();
-          let songB = removeAccents(b.songName).toLowerCase();
-
-          return songA.localeCompare(songB);
-        });
-
-        storage.save({
-          key: 'songs',
-          data: songs,
-          expires: null,
-        });
-
-        loadSongs();
-        Toast.success(editId ? 'Música editada!' : 'Música adicionada!');
-        navigation.navigate('Home');
-      }
-
-      verifiyIfSongExists()
+      verifyIfSongExists()
         .then(() => {
-          Toast.success('Essa música já está cadastrada!');
+          Toast.error('Essa música já está cadastrada!');
           setIsLoadingSave(false);
         })
-        .catch(() => sortAndSave());
+        .catch(() => {
+          let songs = [...registeredSongs];
+          const editSong = !!editId;
+          songs = [...(editSong ? updateSong(songs) : addNewSong(songs))];
+          saveSong(songs);
+        });
     }
   }
 
   useEffect(() => {
     if (editId) {
-      registeredSongs.map(song => {
-        if (song.id === editId) {
-          setValue('songName', song.songName);
-          setValue('singer', song.singer);
-          setValue('tone', song.tone);
-          setValue('needsCipher', song.needsCipher);
-        }
-      });
+      const songToEdit = registeredSongs.find(song => song.id === editId);
+
+      if (songToEdit?.id) {
+        setValue('songName', songToEdit.songName);
+        setValue('singer', songToEdit.singer);
+        setValue('tone', songToEdit.tone);
+        setValue('needsCipher', songToEdit.needsCipher);
+      }
     }
   }, []);
 
@@ -193,7 +193,7 @@ const Song = ({navigation, route}) => {
         <Button
           label={buttonLabel}
           isDisabled={buttonIsDisabled}
-          onPress={saveSong}
+          onPress={saveChanges}
         />
       </s.WrapperButton>
     </s.Content>

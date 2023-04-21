@@ -4,16 +4,23 @@ import {SearchBar, SongItem, FooterButtons} from '../../components';
 import {icons} from '../../assets';
 import {useSearch} from '../../context';
 import {useForm} from 'react-hook-form';
+import {removeAccents} from '../../utils';
 
 const Home = ({navigation}) => {
   const {isLoadingSongs, registeredSongs} = useSearch();
   const {control, watch, setValue} = useForm();
   const search = watch('search', '');
+  const orderedSongs = [...registeredSongs].sort(function (a, b) {
+    const songA = removeAccents(a?.songName).toLowerCase();
+    const songB = removeAccents(b?.songName).toLowerCase();
+
+    return songA?.localeCompare(songB);
+  });
   const searchedSongs =
-    registeredSongs.filter(song =>
+    orderedSongs.filter(song =>
       song.songName.toLowerCase().includes(search.toLowerCase()),
     ) || [];
-  const songList = search ? searchedSongs : registeredSongs;
+  const songList = search ? searchedSongs : orderedSongs;
 
   return (
     <s.SafeAreaView>
