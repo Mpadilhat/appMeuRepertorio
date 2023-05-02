@@ -1,6 +1,6 @@
 import React from 'react';
 import * as s from './styledSearchBar';
-import {shadow, icons} from '../../assets';
+import {shadow, icons} from '../../../assets';
 import {Controller} from 'react-hook-form';
 
 const SearchBar = ({control}) => {

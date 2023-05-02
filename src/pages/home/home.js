@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import * as s from './styledHome';
 import {SearchBar, SongItem, FooterButtons} from '../../components';
 import {icons} from '../../assets';
-import {useSearch} from '../../context';
+import {useSearch} from '../../contexts';
 import {useForm} from 'react-hook-form';
 import {removeAccents} from '../../utils';
 
@@ -10,12 +10,14 @@ const Home = ({navigation}) => {
   const {isLoadingSongs, registeredSongs} = useSearch();
   const {control, watch, setValue} = useForm();
   const search = watch('search', '');
-  const orderedSongs = [...registeredSongs].sort(function (a, b) {
-    const songA = removeAccents(a?.songName).toLowerCase();
-    const songB = removeAccents(b?.songName).toLowerCase();
+  const orderedSongs = useMemo(() => {
+    return [...registeredSongs].sort(function (a, b) {
+      const songA = removeAccents(a?.songName).toLowerCase();
+      const songB = removeAccents(b?.songName).toLowerCase();
 
-    return songA?.localeCompare(songB);
-  });
+      return songA?.localeCompare(songB);
+    });
+  }, [registeredSongs]);
   const searchedSongs =
     orderedSongs.filter(song =>
       song.songName.toLowerCase().includes(search.toLowerCase()),
@@ -25,6 +27,20 @@ const Home = ({navigation}) => {
   return (
     <s.SafeAreaView>
       <SearchBar control={control} />
+
+      {songList.length > 0 && (
+        <s.Header>
+          <s.Head empty />
+          <s.Head>
+            <s.HeadText>TOM</s.HeadText>
+          </s.Head>
+          <s.Head cipher>
+            <s.HeadText>CIFRA</s.HeadText>
+          </s.Head>
+          <s.Head empty last />
+        </s.Header>
+      )}
+
       <s.ScrollView style={{marginBottom: songList.length ? 65 : 0}}>
         {isLoadingSongs ? (
           <s.Container>

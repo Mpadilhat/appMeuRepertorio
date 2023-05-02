@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-native-modal';
 import * as s from './styledModal';
-import {shadow} from '../../assets';
+import {shadow} from '../../../assets';
 
 const CustomModal = ({isOpen, song, onPress, closeModal, suggestSong}) => {
   return (
@@ -17,7 +17,7 @@ const CustomModal = ({isOpen, song, onPress, closeModal, suggestSong}) => {
             {song?.songName || 'Nome da música'}
           </s.Text>
           <s.View singer>
-            <s.Text fontRegular>{song?.singer || 'Quem canta'}</s.Text>
+            <s.Text fontRegular>( {song?.singer || 'Quem canta'} )</s.Text>
           </s.View>
 
           {suggestSong && (

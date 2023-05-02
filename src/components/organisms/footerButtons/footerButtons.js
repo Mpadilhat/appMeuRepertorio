@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import * as s from './styledFooterButtons';
-import {shadow, icons} from '../../assets';
-import {useSearch} from '../../context';
-import {Modal} from '../../components';
+import {shadow, icons} from '../../../assets';
+import {useSearch} from '../../../contexts';
+import {Modal} from '../../../components';
 
 const FooterButtons = ({navigation, clearSearch}) => {
   const {registeredSongs} = useSearch();

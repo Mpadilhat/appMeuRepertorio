@@ -1,13 +1,15 @@
 import styled from 'styled-components/native';
-import {colors} from '../../assets';
+import {colors} from '../../../assets';
 
-export const Container = styled.View`
+export const Container = styled.View.attrs({
+  borderTopWidth: 0,
+})`
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 80px;
-
   background: ${({isPair}) => (isPair ? colors.lightGray : colors.background)};
+  border: 1px solid ${colors.gray};
 `;
 
 export const Name = styled.View`
@@ -30,19 +32,6 @@ export const Cipher = styled.View`
 
 export const Column = styled.View`
   width: 12.5%;
-`;
-
-export const Head = styled.View.attrs({
-  borderTopWidth: 0,
-  borderBottomWidth: 0.5,
-  borderBottomColor: colors.gray,
-})`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 25px;
-  border: 1px solid ${colors.gray};
 `;
 
 export const HeadText = styled.Text`
@@ -69,7 +58,10 @@ export const HeadText = styled.Text`
   }};
 `;
 
-export const Content = styled.View.attrs({borderBottomWidth: 0})`
+export const Content = styled.View.attrs({
+  borderTopWidth: 0,
+  borderBottomWidth: 0,
+})`
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import * as s from './styled-song';
 import {storage} from '../../utils';
-import {useSearch} from '../../context';
+import {useSearch} from '../../contexts';
 import {
   Toast,
   InputWithLabel,

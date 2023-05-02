@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors} from '../../assets';
+import {colors} from '../../../assets';
 
 export const Container = styled.View`
   background: ${colors.primary};

@@ -1,9 +1,9 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import * as s from './styledSongItem';
-import {icons} from '../../assets';
-import {useSearch} from '../../context';
-import {storage} from '../../utils';
-import {Modal, Toast} from '../../components';
+import {icons} from '../../../assets';
+import {useSearch} from '../../../contexts';
+import {storage} from '../../../utils';
+import {Modal, Toast} from '../../../components';
 
 const SongItem = ({position, data, navigation, refresh}) => {
   const {registeredSongs, loadSongs} = useSearch();
@@ -49,9 +49,6 @@ const SongItem = ({position, data, navigation, refresh}) => {
         </s.Title>
       </s.Name>
       <s.Column>
-        <s.Head>
-          <s.HeadText fontSemiBold>TOM</s.HeadText>
-        </s.Head>
         <s.Content>
           <s.HeadText big fontBold>
             {data.tone}
@@ -59,9 +56,6 @@ const SongItem = ({position, data, navigation, refresh}) => {
         </s.Content>
       </s.Column>
       <s.Cipher>
-        <s.Head>
-          <s.HeadText fontSemiBold>CIFRA</s.HeadText>
-        </s.Head>
         <s.Content>
           <s.HeadText big fontRegular>
             {data.needsCipher ? 'Sim' : 'Não'}
