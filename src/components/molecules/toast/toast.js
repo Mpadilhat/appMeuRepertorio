@@ -1,7 +1,7 @@
 import React from 'react';
 import * as s from './styledToast';
 import Toast from 'react-native-root-toast';
-import {icons, colors} from '../../../assets';
+import {icons, colors} from '@src/assets';
 
 const configs = {
   duration: 1500,

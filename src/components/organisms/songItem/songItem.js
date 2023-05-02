@@ -1,9 +1,9 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import * as s from './styledSongItem';
-import {icons} from '../../../assets';
-import {useSearch} from '../../../contexts';
-import {storage} from '../../../utils';
-import {Modal, Toast} from '../../../components';
+import {icons} from '@src/assets';
+import {useSearch} from '@src/contexts';
+import {storage} from '@src/utils';
+import {Modal, Toast} from '@src/components';
 
 const SongItem = ({position, data, navigation, refresh}) => {
   const {registeredSongs, loadSongs} = useSearch();

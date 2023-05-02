@@ -1,5 +1,5 @@
 import React from 'react';
-import {ColumnWithLabel, Input} from '../../../components';
+import {ColumnWithLabel, Input} from '@src/components';
 
 const InputWithLabel = ({
   label,

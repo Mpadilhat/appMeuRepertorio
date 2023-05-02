@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Home, Song} from '../pages';
-import {colors} from '../assets';
+import {Home, Song} from '@src/pages';
+import {colors} from '@src/assets';
 
 const Stack = createStackNavigator();
 

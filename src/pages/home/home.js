@@ -1,10 +1,10 @@
 import React, {useMemo} from 'react';
 import * as s from './styledHome';
-import {SearchBar, SongItem, FooterButtons} from '../../components';
-import {icons} from '../../assets';
-import {useSearch} from '../../contexts';
+import {SearchBar, SongItem, FooterButtons} from '@src/components';
+import {icons} from '@src/assets';
+import {useSearch} from '@src/contexts';
 import {useForm} from 'react-hook-form';
-import {removeAccents} from '../../utils';
+import {removeAccents} from '@src/utils';
 
 const Home = ({navigation}) => {
   const {isLoadingSongs, registeredSongs} = useSearch();

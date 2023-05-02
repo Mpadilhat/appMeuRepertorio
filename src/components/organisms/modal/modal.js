@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-native-modal';
 import * as s from './styledModal';
-import {shadow} from '../../../assets';
+import {shadow} from '@src/assets';
 
 const CustomModal = ({isOpen, song, onPress, closeModal, suggestSong}) => {
   return (

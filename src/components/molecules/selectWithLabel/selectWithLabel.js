@@ -1,5 +1,5 @@
 import React from 'react';
-import {ColumnWithLabel, Select} from '../../../components';
+import {ColumnWithLabel, Select} from '@src/components';
 
 const SelectWithLabel = ({
   label,

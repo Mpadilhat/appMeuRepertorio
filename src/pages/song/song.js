@@ -1,16 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import * as s from './styled-song';
-import {storage} from '../../utils';
-import {useSearch} from '../../contexts';
+import {storage} from '@src/utils';
+import {useSearch} from '@src/contexts';
 import {
   Toast,
   InputWithLabel,
   SelectWithLabel,
   Button,
   SwitchWithLabel,
-} from '../../components';
+} from '@src/components';
 import {useForm} from 'react-hook-form';
-import {toneOptions} from '../../constants';
+import {toneOptions} from '@src/constants';
 
 const Song = ({navigation, route}) => {
   const {editId} = route.params;

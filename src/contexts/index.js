@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
-import {storage} from '../utils';
+import {storage} from '@src/utils';
 
 const SearchContext = createContext();
 

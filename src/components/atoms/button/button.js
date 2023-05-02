@@ -1,6 +1,6 @@
 import React from 'react';
 import * as s from './styledButton';
-import {shadow} from '../../../assets';
+import {shadow} from '@src/assets';
 
 const Button = ({label, onPress, isDisabled}) => (
   <s.Button style={shadow} disabled={isDisabled} onPress={onPress}>

@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {colors} from '../../../assets';
+import {colors} from '@src/assets';
 
 export const Container = styled.View.attrs({
   borderTopWidth: 0,
